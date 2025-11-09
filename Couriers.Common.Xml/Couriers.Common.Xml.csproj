@@ -11,7 +11,7 @@
 		<RepositoryUrl>https://github.com/DimitrisKostorrizos/Couriers.Common.Xml</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/DimitrisKostorrizos/Couriers.Common.Xml</PackageProjectUrl>
 		<PackageTags>Courier;API;XML</PackageTags>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>5.0.0</PackageVersion>
 		<DebugSymbols>true</DebugSymbols>
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
