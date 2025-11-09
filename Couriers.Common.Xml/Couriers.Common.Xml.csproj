@@ -1,9 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Title>Courier API Clients's Common XML Implementations</Title>
+		<Authors>Dimitrios Kostorrizos</Authors>
+		<Description>Contains the XML related implementations used across the Courier Client packages.</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/DimitrisKostorrizos/Couriers.Common.Xml</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/DimitrisKostorrizos/Couriers.Common.Xml</PackageProjectUrl>
+		<PackageTags>Courier;API;XML</PackageTags>
+		<PackageVersion>1.0.0</PackageVersion>
+		<DebugSymbols>true</DebugSymbols>
+		<EmbedAllSources>true</EmbedAllSources>
+		<DebugType>portable</DebugType>
+		<IncludeSymbols>true</IncludeSymbols>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="'$(Configuration)'=='Debug'">
+			<PropertyGroup>
+				<AnalysisLevel>latest-Recommended</AnalysisLevel>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)'=='Release'">
+			<PropertyGroup>
+				<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+				<Optimize>true</Optimize>
+			</PropertyGroup>
+		</When>
+	</Choose>
+
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>
