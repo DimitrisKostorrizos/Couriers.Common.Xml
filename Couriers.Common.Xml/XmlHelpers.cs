@@ -40,7 +40,8 @@ namespace Couriers.Common.Xml
         public static T Deserialize<T>([NotNull] this XContainer element)
             where T : class
         {
-            ArgumentNullException.ThrowIfNull(element);
+            if (element is null)
+                throw new ArgumentNullException(nameof(element));
 
             // Use a temporary reader for the Xml element
             using var reader = element.CreateReader();
@@ -72,7 +73,8 @@ namespace Couriers.Common.Xml
             if (obj is null)
                 throw new ArgumentNullException(nameof(obj));
 
-            ArgumentNullException.ThrowIfNull(defaultPrefix);
+            if (defaultPrefix is null)
+                throw new ArgumentNullException(nameof(defaultPrefix));
 
             if (string.IsNullOrWhiteSpace(defaultNamespace))
                 throw new ArgumentException($"'{nameof(defaultNamespace)}' cannot be null or whitespace.", nameof(defaultNamespace));
@@ -114,9 +116,11 @@ namespace Couriers.Common.Xml
         /// <param name="namespaces">The name spaces</param>
         public static string ToXml([NotNull] object obj, [NotNull] XmlSerializerNamespaces namespaces)
         {
-            ArgumentNullException.ThrowIfNull(obj);
+            if (obj is null)
+                throw new ArgumentNullException(nameof(obj));
 
-            ArgumentNullException.ThrowIfNull(namespaces);
+            if (namespaces is null)
+                throw new ArgumentNullException(nameof(namespaces));
 
             var objectType = obj.GetType();
 
@@ -140,11 +144,14 @@ namespace Couriers.Common.Xml
         /// <param name="settings">The settings</param>
         public static string ToXml([NotNull] object obj, [NotNull] XmlSerializerNamespaces namespaces, [NotNull] XmlWriterSettings settings)
         {
-            ArgumentNullException.ThrowIfNull(obj);
+            if (obj is null)
+                throw new ArgumentNullException(nameof(obj));
 
-            ArgumentNullException.ThrowIfNull(namespaces);
+            if (namespaces is null)
+                throw new ArgumentNullException(nameof(namespaces));
 
-            ArgumentNullException.ThrowIfNull(settings);
+            if (settings is null)
+                throw new ArgumentNullException(nameof(settings));
 
             var objectType = obj.GetType();
 
@@ -177,7 +184,8 @@ namespace Couriers.Common.Xml
             if (string.IsNullOrWhiteSpace(xml))
                 throw new ArgumentException($"'{nameof(xml)}' cannot be null or whitespace.", nameof(xml));
 
-            ArgumentNullException.ThrowIfNull(type);
+            if (type is null)
+                throw new ArgumentNullException(nameof(type));
 
             if (type == typeof(string))
                 return xml;
