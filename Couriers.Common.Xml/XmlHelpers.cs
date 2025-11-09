@@ -1,0 +1,204 @@
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+
+namespace Couriers.Common.Xml
+{
+    /// <summary>
+    /// Contains the helper methods related to XML handling
+    /// </summary>
+    public static class XmlHelpers
+    {
+        #region Constants
+
+        /// <summary>
+        /// The default XML writer settings
+        /// </summary>
+        private static readonly XmlWriterSettings _defaultSettings = new()
+        {
+            Indent = true,
+            NewLineOnAttributes = true,
+            Async = true,
+            CloseOutput = true,
+            OmitXmlDeclaration = true
+        };
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Deserializes the <paramref name="element"/> to the specified <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the element</typeparam>
+        /// <param name="element">The element</param>
+        /// <returns></returns>
+        public static T Deserialize<T>([NotNull] this XContainer element)
+            where T : class
+        {
+            if (element is null)
+                throw new ArgumentNullException(nameof(element));
+
+            // Use a temporary reader for the Xml element
+            using var reader = element.CreateReader();
+
+            // Initialize the serializer
+            var serializer = new XmlSerializer(typeof(T));
+
+            // Deserialize the reader
+            var result = serializer.Deserialize(reader);
+
+            // If the cast failed...
+            if (result is not T value)
+                throw new InvalidOperationException("Invalid XML");
+
+            // Return the value
+            return value;
+        }
+
+        /// <summary>
+        /// Serializes the <paramref name="obj"/> to the specified <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the object</typeparam>
+        /// <param name="obj">The object</param>
+        /// <param name="defaultPrefix">The XML prefix that will be used as the default, when for the elements with no prefix</param>
+        /// <param name="defaultNamespace">The XML namespace that will be used as the default, when for the elements with no prefix</param>
+        /// <returns></returns>
+        public static XElement SerializeToXElement<T>([NotNull] this T obj, [NotNull] string defaultPrefix, [NotNull] string defaultNamespace)
+        {
+            if (obj is null)
+                throw new ArgumentNullException(nameof(obj));
+
+            if (defaultPrefix is null)
+                throw new ArgumentNullException(nameof(defaultPrefix));
+
+            if (string.IsNullOrWhiteSpace(defaultNamespace))
+                throw new ArgumentException($"'{nameof(defaultNamespace)}' cannot be null or whitespace.", nameof(defaultNamespace));
+
+            // Declare a document
+            var document = new XDocument();
+
+            // Use a temporary reader for the Xml element
+            using (var writer = document.CreateWriter())
+            {
+                // Declare the namespaces
+                var namespaces = new XmlSerializerNamespaces();
+
+                // Add the default namespace
+                namespaces.Add(defaultPrefix, defaultNamespace);
+
+                // Declare a new serializer for the object
+                var serializer = new XmlSerializer(typeof(T));
+
+                // Serialize the object
+                serializer.Serialize(writer, obj, namespaces);
+            }
+
+            // Get the root element
+            var element = document.Root
+                ?? throw new InvalidOperationException("Invalid XML");
+
+            // Remove the root element
+            element.Remove();
+
+            // Return the element
+            return element;
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="obj"/> to an XML string, using the specified <paramref name="namespaces"/>
+        /// </summary>
+        /// <param name="obj">The object to serialize</param>
+        /// <param name="namespaces">The name spaces</param>
+        public static string ToXml([NotNull] object obj, [NotNull] XmlSerializerNamespaces namespaces)
+        {
+            if (obj is null)
+                throw new ArgumentNullException(nameof(obj));
+
+            if (namespaces is null)
+                throw new ArgumentNullException(nameof(namespaces));
+
+            var objectType = obj.GetType();
+
+            var xmlSerializer = new XmlSerializer(objectType);
+
+            var stringBuilder = new StringBuilder();
+
+            using (var writer = XmlWriter.Create(stringBuilder, _defaultSettings))
+            {
+                xmlSerializer.Serialize(writer, obj, namespaces);
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Serializes the specified <paramref name="obj"/> to an XML string, using the specified <paramref name="namespaces"/> and the specified <paramref name="settings"/>
+        /// </summary>
+        /// <param name="obj">The object to serialize</param>
+        /// <param name="namespaces">The name spaces</param>
+        /// <param name="settings">The settings</param>
+        public static string ToXml([NotNull] object obj, [NotNull] XmlSerializerNamespaces namespaces, [NotNull] XmlWriterSettings settings)
+        {
+            if (obj is null)
+                throw new ArgumentNullException(nameof(obj));
+
+            if (namespaces is null)
+                throw new ArgumentNullException(nameof(namespaces));
+
+            if (settings is null)
+                throw new ArgumentNullException(nameof(settings));
+
+            var objectType = obj.GetType();
+
+            var xs = new XmlSerializer(objectType);
+
+            var sb = new StringBuilder();
+
+            using (var writer = XmlWriter.Create(sb, settings))
+            {
+                xs.Serialize(writer, obj, namespaces);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="xml"/> to an object of the
+        /// specified type
+        /// </summary>
+        /// <param name="xml">The XML</param>
+        public static T? FromXml<T>([NotNull] string xml)
+            => (T?)FromXml(xml, typeof(T));
+
+        /// <summary>
+        /// Deserializes the specified <paramref name="xml"/> to an object
+        /// of the specified <paramref name="type"/>
+        /// </summary>
+        public static object? FromXml([NotNull] string xml, [NotNull] Type type)
+        {
+            if (string.IsNullOrWhiteSpace(xml))
+                throw new ArgumentException($"'{nameof(xml)}' cannot be null or whitespace.", nameof(xml));
+
+            if (type is null)
+                throw new ArgumentNullException(nameof(type));
+
+            if (type == typeof(string))
+                return xml;
+
+            using var stringReader = new StringReader(xml);
+
+            var xmlSerializer = new XmlSerializer(type);
+
+            using var xmlReader = XmlReader.Create(stringReader);
+
+            return xmlSerializer.Deserialize(xmlReader);
+        }
+
+        #endregion
+    }
+}
