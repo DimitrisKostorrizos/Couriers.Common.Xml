@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<Title>Courier API Clients's Common XML Implementations</Title>
@@ -11,7 +11,7 @@
 		<RepositoryUrl>https://github.com/DimitrisKostorrizos/Couriers.Common.Xml</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/DimitrisKostorrizos/Couriers.Common.Xml</PackageProjectUrl>
 		<PackageTags>Courier;API;XML</PackageTags>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>3.0.0</PackageVersion>
 		<DebugSymbols>true</DebugSymbols>
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
