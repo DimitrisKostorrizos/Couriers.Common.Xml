@@ -69,8 +69,7 @@ namespace Couriers.Common.Xml
         /// <returns></returns>
         public static XElement SerializeToXElement<T>([NotNull] this T obj, [NotNull] string defaultPrefix, [NotNull] string defaultNamespace)
         {
-            if (obj is null)
-                throw new ArgumentNullException(nameof(obj));
+            ArgumentNullException.ThrowIfNull(obj);
 
             ArgumentNullException.ThrowIfNull(defaultPrefix);
 
