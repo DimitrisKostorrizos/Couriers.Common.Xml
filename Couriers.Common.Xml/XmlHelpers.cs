@@ -70,14 +70,12 @@ namespace Couriers.Common.Xml
         /// <returns></returns>
         public static XElement SerializeToXElement<T>([NotNull] this T obj, [NotNull] string defaultPrefix, [NotNull] string defaultNamespace)
         {
-            if (obj is null)
-                throw new ArgumentNullException(nameof(obj));
+            ArgumentNullException.ThrowIfNull(obj);
 
             if (defaultPrefix is null)
                 throw new ArgumentNullException(nameof(defaultPrefix));
 
-            if (string.IsNullOrWhiteSpace(defaultNamespace))
-                throw new ArgumentException($"'{nameof(defaultNamespace)}' cannot be null or whitespace.", nameof(defaultNamespace));
+            ArgumentException.ThrowIfNullOrWhiteSpace(defaultNamespace);
 
             // Declare a document
             var document = new XDocument();
@@ -181,8 +179,7 @@ namespace Couriers.Common.Xml
         /// </summary>
         public static object? FromXml([NotNull] string xml, [NotNull] Type type)
         {
-            if (string.IsNullOrWhiteSpace(xml))
-                throw new ArgumentException($"'{nameof(xml)}' cannot be null or whitespace.", nameof(xml));
+            ArgumentException.ThrowIfNullOrWhiteSpace(xml);
 
             if (type is null)
                 throw new ArgumentNullException(nameof(type));
