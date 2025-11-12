@@ -73,8 +73,7 @@ namespace Couriers.Common.Xml
 
             ArgumentNullException.ThrowIfNull(defaultPrefix);
 
-            if (string.IsNullOrWhiteSpace(defaultNamespace))
-                throw new ArgumentException($"'{nameof(defaultNamespace)}' cannot be null or whitespace.", nameof(defaultNamespace));
+            ArgumentException.ThrowIfNullOrWhiteSpace(defaultNamespace);
 
             // Declare a document
             var document = new XDocument();
@@ -173,8 +172,7 @@ namespace Couriers.Common.Xml
         /// </summary>
         public static object? FromXml([NotNull] string xml, [NotNull] Type type)
         {
-            if (string.IsNullOrWhiteSpace(xml))
-                throw new ArgumentException($"'{nameof(xml)}' cannot be null or whitespace.", nameof(xml));
+            ArgumentException.ThrowIfNullOrWhiteSpace(xml);
 
             ArgumentNullException.ThrowIfNull(type);
 
