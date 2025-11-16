@@ -76,9 +76,9 @@ namespace Couriers.Common.Xml.Tests
         {
             var order = default(TestOrder?);
 
-            var defaultPrefix = TestHelpers.RenerateRandomString(4);
+            var defaultPrefix = TestHelpers.RenerateRandomWord(4);
 
-            var defaultNamespace = TestHelpers.RenerateRandomString(4);
+            var defaultNamespace = TestHelpers.RenerateRandomWord(4);
 
             Assert.ThrowsAny<Exception>(() => XmlHelpers.SerializeToXElement(order!, defaultPrefix, defaultNamespace));
         }
@@ -97,7 +97,7 @@ namespace Couriers.Common.Xml.Tests
                 OrderNumber = orderNumber
             };
 
-            var defaultNamespace = TestHelpers.RenerateRandomString(4);
+            var defaultNamespace = TestHelpers.RenerateRandomWord(4);
 
             Assert.ThrowsAny<Exception>(() => XmlHelpers.SerializeToXElement(order, null!, defaultNamespace));
         }
@@ -117,7 +117,7 @@ namespace Couriers.Common.Xml.Tests
                 OrderNumber = orderNumber
             };
 
-            var defaultPrefix = TestHelpers.RenerateRandomString(4);
+            var defaultPrefix = TestHelpers.RenerateRandomWord(4);
 
             Assert.ThrowsAny<Exception>(() => XmlHelpers.SerializeToXElement(order, defaultPrefix, value!));
         }
@@ -136,9 +136,9 @@ namespace Couriers.Common.Xml.Tests
                 OrderNumber = orderNumber
             };
 
-            var defaultPrefix = TestHelpers.RenerateRandomString(4);
+            var defaultPrefix = TestHelpers.RenerateRandomWord(4);
 
-            var defaultNamespace = TestHelpers.RenerateRandomString(4);
+            var defaultNamespace = TestHelpers.RenerateRandomWord(4);
 
             var xmlElement = XmlHelpers.SerializeToXElement(order, defaultPrefix, defaultNamespace);
 
