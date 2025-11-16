@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Couriers.Common.Xml", "Couriers.Common.Xml\Couriers.Common.Xml.csproj", "{F04A1544-0612-4631-BA72-313EF7350020}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Couriers.Common.Xml.Tests", "Couriers.Common.Xml.Tests\Couriers.Common.Xml.Tests.csproj", "{671D990F-5B89-411E-9ABE-833C7AB9EE0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F04A1544-0612-4631-BA72-313EF7350020}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F04A1544-0612-4631-BA72-313EF7350020}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F04A1544-0612-4631-BA72-313EF7350020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{671D990F-5B89-411E-9ABE-833C7AB9EE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{671D990F-5B89-411E-9ABE-833C7AB9EE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{671D990F-5B89-411E-9ABE-833C7AB9EE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{671D990F-5B89-411E-9ABE-833C7AB9EE0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

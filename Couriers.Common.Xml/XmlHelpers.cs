@@ -42,7 +42,7 @@ namespace Couriers.Common.Xml
         {
             ArgumentNullException.ThrowIfNull(element);
 
-            // Use a temporary reader for the Xml element
+            // Use a temporary reader for the XML element
             using var reader = element.CreateReader();
 
             // Initialize the serializer
@@ -51,9 +51,9 @@ namespace Couriers.Common.Xml
             // Deserialize the reader
             var result = serializer.Deserialize(reader);
 
-            // If the cast failed...
-            if (result is not T value)
-                throw new InvalidOperationException("Invalid XML");
+            var value = (T?)result;
+
+            ThrowIfMismatchedXMLType(value);
 
             // Return the value
             return value;
@@ -79,7 +79,7 @@ namespace Couriers.Common.Xml
             // Declare a document
             var document = new XDocument();
 
-            // Use a temporary reader for the Xml element
+            // Use a temporary reader for the XML element
             using (var writer = document.CreateWriter())
             {
                 // Declare the namespaces
@@ -96,8 +96,9 @@ namespace Couriers.Common.Xml
             }
 
             // Get the root element
-            var element = document.Root
-                ?? throw new InvalidOperationException("Invalid XML");
+            var element = document.Root;
+
+            ThrowIfMismatchedXMLType(element);
 
             // Remove the root element
             element.Remove();
@@ -112,24 +113,7 @@ namespace Couriers.Common.Xml
         /// <param name="obj">The object to serialize</param>
         /// <param name="namespaces">The name spaces</param>
         public static string ToXml([NotNull] object obj, [NotNull] XmlSerializerNamespaces namespaces)
-        {
-            ArgumentNullException.ThrowIfNull(obj);
-
-            ArgumentNullException.ThrowIfNull(namespaces);
-
-            var objectType = obj.GetType();
-
-            var xmlSerializer = new XmlSerializer(objectType);
-
-            var stringBuilder = new StringBuilder();
-
-            using (var writer = XmlWriter.Create(stringBuilder, _defaultSettings))
-            {
-                xmlSerializer.Serialize(writer, obj, namespaces);
-            }
-
-            return stringBuilder.ToString();
-        }
+            => ToXml(obj, namespaces, _defaultSettings);
 
         /// <summary>
         /// Serializes the specified <paramref name="obj"/> to an XML string, using the specified <paramref name="namespaces"/> and the specified <paramref name="settings"/>
@@ -147,16 +131,16 @@ namespace Couriers.Common.Xml
 
             var objectType = obj.GetType();
 
-            var xs = new XmlSerializer(objectType);
+            var xmlSerializer = new XmlSerializer(objectType);
 
-            var sb = new StringBuilder();
+            var stringBuilder = new StringBuilder();
 
-            using (var writer = XmlWriter.Create(sb, settings))
+            using (var writer = XmlWriter.Create(stringBuilder, settings))
             {
-                xs.Serialize(writer, obj, namespaces);
+                xmlSerializer.Serialize(writer, obj, namespaces);
             }
 
-            return sb.ToString();
+            return stringBuilder.ToString();
         }
 
         /// <summary>
@@ -164,14 +148,14 @@ namespace Couriers.Common.Xml
         /// specified type
         /// </summary>
         /// <param name="xml">The XML</param>
-        public static T? FromXml<T>([NotNull] string xml)
-            => (T?)FromXml(xml, typeof(T));
+        public static T FromXml<T>([NotNull] string xml)
+            => (T)FromXml(xml, typeof(T));
 
         /// <summary>
         /// Deserializes the specified <paramref name="xml"/> to an object
         /// of the specified <paramref name="type"/>
         /// </summary>
-        public static object? FromXml([NotNull] string xml, [NotNull] Type type)
+        public static object FromXml([NotNull] string xml, [NotNull] Type type)
         {
             if (string.IsNullOrWhiteSpace(xml))
                 throw new ArgumentException($"'{nameof(xml)}' cannot be null or whitespace.", nameof(xml));
@@ -187,7 +171,28 @@ namespace Couriers.Common.Xml
 
             using var xmlReader = XmlReader.Create(stringReader);
 
-            return xmlSerializer.Deserialize(xmlReader);
+            var result = xmlSerializer.Deserialize(xmlReader);
+
+            ThrowIfMismatchedXMLType(result);
+
+            return result;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Throws a <see cref="InvalidOperationException"/> if the specified <paramref name="value"/> is null
+        /// </summary>
+        /// <typeparam name="T">The type of the object</typeparam>
+        /// <param name="value">The value</param>
+        /// <exception cref="InvalidOperationException">An exception if thrown if the <paramref name="value"/> is <see langword="null"/></exception>
+        [ExcludeFromCodeCoverage]
+        private static void ThrowIfMismatchedXMLType<T>([NotNull] T? value)
+        {
+            if (value is null)
+                throw new InvalidOperationException($"The XML does not match the type {nameof(T)}");
         }
 
         #endregion
