@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Couriers.Common.Xml.Tests
 {
@@ -14,7 +12,15 @@ namespace Couriers.Common.Xml.Tests
         /// <summary>
         /// The digits and letters contained in the English alphabet
         /// </summary>
-        private static readonly char[] _lettersAndDigits;
+        private static readonly char[] _lettersAndDigits =
+        [
+            'a', 'b', 'c', 'd', 'e', 'f',
+            'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+            'w', 'x', 'y', 'z',
+            '0', '1', '2', '3',
+            '4', '5', '6', '7', '8', '9'
+        ];
 
         /// <summary>
         /// The letters contained in the English alphabet
@@ -27,30 +33,8 @@ namespace Couriers.Common.Xml.Tests
             'w', 'x', 'y', 'z'
         ];
 
-        /// <summary>
-        /// The digits
-        /// </summary>
-        private static readonly char[] _digits =
-        [
-            '0', '1', '2', '3',
-            '4', '5', '6', '7', '8', '9'
-        ];
-
         #endregion
 
-        #region Constructors
-
-        /// <summary>
-        /// Creates a new instance of <see cref="TestHelpers"/>
-        /// </summary>
-#pragma warning disable S3963 // "static" fields should be initialized inline
-        static TestHelpers()
-#pragma warning restore S3963 // "static" fields should be initialized inline
-        {
-            _lettersAndDigits = [.. _letters, .. _digits];
-        }
-
-        #endregion
 
         #region Public Methods
 
@@ -59,7 +43,7 @@ namespace Couriers.Common.Xml.Tests
         /// </summary>
         /// <param name="length">The length of the returned string</param>
         /// <returns></returns>
-        public static string RenerateRandomString(int length)
+        public static string GenerateRandomString(int length)
         {
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(length);
 
