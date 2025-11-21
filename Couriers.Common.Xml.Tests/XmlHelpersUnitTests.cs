@@ -27,8 +27,6 @@ namespace Couriers.Common.Xml.Tests
 
         #region Test Methods
 
-#pragma warning disable CA1707 // Identifiers should not contain underscores
-
         /// <summary>
         /// Validates that when the <see cref="XmlHelpers.Deserialize{T}(XContainer)"/> method is called, 
         /// with <see langword="null"/> argument, an <see cref="Exception"/> is thrown
@@ -48,7 +46,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void Deserialize_WithValidXml_ReturnsExpectedResult()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var value = @$"<TestOrder
                               xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
@@ -90,7 +88,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void SerializeToXElement_WithNullDefaultPrefix_ThrowsException()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var order = new TestOrder()
             {
@@ -110,7 +108,7 @@ namespace Couriers.Common.Xml.Tests
         [MemberData(nameof(TestConstants.EmptyStringValues), MemberType = typeof(TestConstants))]
         public void SerializeToXElement_WithEmptyDefaultNamespace_ThrowsException(string? value)
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var order = new TestOrder()
             {
@@ -129,7 +127,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void SerializeToXElement_WithValidXml_ReturnsExpectedResult()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var order = new TestOrder()
             {
@@ -160,7 +158,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void ToXml_WithNullArguments_ThrowsException()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var order = new TestOrder()
             {
@@ -186,7 +184,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void ToXml_WithAgruments_ReturnsExpectedResult()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var order = new TestOrder()
             {
@@ -213,7 +211,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void FromXml_WithValidXml_ReturnsExpectedResult()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var value = @$"<TestOrder
                               xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
@@ -228,11 +226,7 @@ namespace Couriers.Common.Xml.Tests
 
             Assert.Equal(orderNumber, order.OrderNumber);
 
-#pragma warning disable CA2263 // Prefer generic overload when type is known
-
             var castedOrder = (TestOrder)XmlHelpers.FromXml(value, typeof(TestOrder));
-
-#pragma warning restore CA2263 // Prefer generic overload when type is known
 
             Assert.NotNull(castedOrder);
 
@@ -257,7 +251,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void FromXml_WithNullType_ThrowsException()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var xml = @$"<TestOrder
                               xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
@@ -275,7 +269,7 @@ namespace Couriers.Common.Xml.Tests
         [Fact]
         public void FromXml_WithValidXml_ReturnsTheSameXml()
         {
-            var orderNumber = TestHelpers.RenerateRandomString(5);
+            var orderNumber = TestHelpers.GenerateRandomString(5);
 
             var value = @$"<TestOrder
                               xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
@@ -291,11 +285,7 @@ namespace Couriers.Common.Xml.Tests
 
             Assert.Same(value, order);
 
-#pragma warning disable CA2263 // Prefer generic overload when type is known
-
             var castedOrder = (string)XmlHelpers.FromXml(value, typeof(string));
-
-#pragma warning restore CA2263 // Prefer generic overload when type is known
 
             Assert.NotNull(castedOrder);
 
@@ -303,8 +293,6 @@ namespace Couriers.Common.Xml.Tests
 
             Assert.Same(value, castedOrder);
         }
-
-#pragma warning restore CA1707 // Identifiers should not contain underscores
 
         #endregion
 
