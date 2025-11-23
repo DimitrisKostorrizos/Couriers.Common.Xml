@@ -104,6 +104,7 @@ namespace Couriers.Common.Xml.Tests
         /// Validates that when the <see cref="XmlHelpers.SerializeToXElement{T}(T, string, string)"/> method is called, 
         /// with empty namespace, an <see cref="Exception"/> is thrown
         /// </summary>
+        /// <param name="value">The empty <see cref="string"/> value</param>
         [Theory]
         [MemberData(nameof(TestConstants.EmptyStringValues), MemberType = typeof(TestConstants))]
         public void SerializeToXElement_WithEmptyDefaultNamespace_ThrowsException(string? value)
@@ -237,6 +238,7 @@ namespace Couriers.Common.Xml.Tests
         /// Validates that when the <see cref="XmlHelpers.FromXml(string, Type)"/> method is called, 
         /// with empty XML text, an <see cref="Exception"/> is thrown
         /// </summary>
+        /// <param name="value">The empty <see cref="string"/> value</param>
         [Theory]
         [MemberData(nameof(TestConstants.EmptyStringValues), MemberType = typeof(TestConstants))]
         public void FromXml_WithEmptyXml_ThrowsException(string? value)
