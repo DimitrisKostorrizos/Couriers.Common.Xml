@@ -38,6 +38,8 @@ namespace Couriers.Common.Xml
         /// <typeparam name="T">The type of the element</typeparam>
         /// <param name="element">The element</param>
         /// <returns></returns>
+        [RequiresDynamicCode("XML serializer relies on dynamic code generation which is not available with Ahead of Time compilation")]
+        [RequiresUnreferencedCode("Members from deserialized types may be trimmed if not referenced directly")]
         public static T Deserialize<T>([NotNull] this XContainer element)
             where T : class
         {
@@ -68,6 +70,8 @@ namespace Couriers.Common.Xml
         /// <param name="defaultPrefix">The XML prefix that will be used as the default, when for the elements with no prefix</param>
         /// <param name="defaultNamespace">The XML namespace that will be used as the default, when for the elements with no prefix</param>
         /// <returns></returns>
+        [RequiresDynamicCode("XML serializer relies on dynamic code generation which is not available with Ahead of Time compilation")]
+        [RequiresUnreferencedCode("Members from deserialized types may be trimmed if not referenced directly")]
         public static XElement SerializeToXElement<T>([NotNull] this T obj, [NotNull] string defaultPrefix, [NotNull] string defaultNamespace)
         {
             ArgumentNullException.ThrowIfNull(obj);
@@ -112,6 +116,8 @@ namespace Couriers.Common.Xml
         /// </summary>
         /// <param name="obj">The object to serialize</param>
         /// <param name="namespaces">The name spaces</param>
+        [RequiresDynamicCode("XML serializer relies on dynamic code generation which is not available with Ahead of Time compilation")]
+        [RequiresUnreferencedCode("Members from deserialized types may be trimmed if not referenced directly")]
         public static string ToXml([NotNull] object obj, [NotNull] XmlSerializerNamespaces namespaces)
             => ToXml(obj, namespaces, _defaultSettings);
 
@@ -121,6 +127,8 @@ namespace Couriers.Common.Xml
         /// <param name="obj">The object to serialize</param>
         /// <param name="namespaces">The name spaces</param>
         /// <param name="settings">The settings</param>
+        [RequiresDynamicCode("XML serializer relies on dynamic code generation which is not available with Ahead of Time compilation")]
+        [RequiresUnreferencedCode("Members from deserialized types may be trimmed if not referenced directly")]
         public static string ToXml([NotNull] object obj, [NotNull] XmlSerializerNamespaces namespaces, [NotNull] XmlWriterSettings settings)
         {
             ArgumentNullException.ThrowIfNull(obj);
@@ -148,6 +156,8 @@ namespace Couriers.Common.Xml
         /// specified type
         /// </summary>
         /// <param name="xml">The XML</param>
+        [RequiresDynamicCode("XML serializer relies on dynamic code generation which is not available with Ahead of Time compilation")]
+        [RequiresUnreferencedCode("Members from deserialized types may be trimmed if not referenced directly")]
         public static T FromXml<T>([NotNull] string xml)
             => (T)FromXml(xml, typeof(T));
 
@@ -155,6 +165,8 @@ namespace Couriers.Common.Xml
         /// Deserializes the specified <paramref name="xml"/> to an object
         /// of the specified <paramref name="type"/>
         /// </summary>
+        [RequiresDynamicCode("XML serializer relies on dynamic code generation which is not available with Ahead of Time compilation")]
+        [RequiresUnreferencedCode("Members from deserialized types may be trimmed if not referenced directly")]
         public static object FromXml([NotNull] string xml, [NotNull] Type type)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(xml);
